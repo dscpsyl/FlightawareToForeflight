@@ -4,8 +4,7 @@ import math
 from datetime import datetime
 from lxml import etree as ET
 
-# Download path for FlightAware KML files.
-srcDir = r'C:\Users\<User Name>\Downloads'
+FILESOURCE = ""
 
 # Returns an array containing the texts of all the specified child nodes of root.
 def getAll(root, node):
@@ -73,7 +72,4 @@ def export(kml):
     with open(fileName, 'w') as f:
         f.writelines('\n'.join(csv))
 
-# Convert all files in source directory.    
-files = glob.glob(os.path.join(srcDir, '*.kml'))
-for fileName in files:
-    export(fileName)
+export(FILESOURCE)
