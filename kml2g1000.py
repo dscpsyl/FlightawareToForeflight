@@ -4,14 +4,12 @@ import math
 from datetime import datetime
 from lxml import etree as ET
 
-FILESOURCE = ""
 
 # Returns an array containing the texts of all the specified child nodes of root.
 def getAll(root, node):
     return [_.text for _ in root.iterfind('.//'+node, namespaces=root.nsmap)]
 
 # Calculates the groundspeed given two lat/long coordinates and associated start/end datetimes.
-# TODO: Account for altitude differences.
 def calcSpeed(fm, to, start, end):
     dx = math.hypot(*[b - a for a, b in zip(fm, to)]) * 60.0 # nautical miles
     dt = (end - start).total_seconds() / 3600.0 # hours
@@ -24,6 +22,7 @@ def export(kml):
     base = os.path.splitext(kml)[0]
     fileName = base + '.csv'
     if os.path.exists(fileName):
+        print("Skipping " + fileName + " (already exists)")
         return
 
     print('Exporting ' + fileName)
@@ -72,4 +71,11 @@ def export(kml):
     with open(fileName, 'w') as f:
         f.writelines('\n'.join(csv))
 
-export(FILESOURCE)
+if __name__ == '__main__':
+    
+    searchDir = input('Show me the directory containing the track files (defaults to Downloads folder): ')
+    if searchDir == '':
+        searchDir = os.path.join(os.path.expanduser('~'), 'Downloads')
+    
+    for kml in glob.glob('*.kml', root_dir=searchDir):
+        export(searchDir + "/" + kml)
