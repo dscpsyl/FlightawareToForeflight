@@ -54,4 +54,16 @@ def downloadKML(tailnum, dataset, flight):
     dURL = URL + tailnum + "/history/" + dataset[flight][0] + "/" + dataset[flight][1] + "Z/" + dataset[flight][2] + "/" + dataset[flight][3] + "/google_earth"
     
     return requests.get(dURL, allow_redirects=True)
+
+def downloadFLink(flightLink):
+    """Downloads the KML file for a specific flight from flightaware.com. The KML file is a Google Earth file that contains the flight path.
     
+    Args:
+        flightLink (str): The flightaware.com URL of the flight you would like to download.
+        
+    Returns:
+        _ (requests.models.Response): The KML file is downloaded to the return paramater
+    
+    """
+    
+    return requests.get(flightLink+"/google_earth", allow_redirects=True)

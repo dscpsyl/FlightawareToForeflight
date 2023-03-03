@@ -65,6 +65,21 @@ def remote():
     
     print(f"Exported flight on {pdataDisplay[int(flight)][0]} from {pdataDisplay[int(flight)][2]} to {pdataDisplay[int(flight)][3]} to csv.")
         
+def fURL():
+    url = input("Enter the flightaware.com URL of the flight you would like to download: ")
+    print("Downloading flight...")
+    r = fas.downloadFLink(url)
+    with open ("track.kml", "wb") as f:
+        f.write(r.content)
+    print("Done!")
+    
+    print("Exporting track to csv...")
+    export("track.kml")
+    print("Done!")
+    
+    print("Cleaning up...")
+    os.remove("track.kml")
+    print("Done!")
     
 
 if __name__ == '__main__':
@@ -96,12 +111,15 @@ if __name__ == '__main__':
     print("Please select an option:")
     print("\t\t1. Convert files in a local directory")
     print("\t\t2. Find files directly on flightaware.com")
+    print("\t\t3. Input a flightaware.com URL")
     option = input("$: ")
     
     if option == '1':
         local()
     elif option == '2':
         remote()
+    elif option == '3':
+        fURL()
     else:
         print("Invalid option. Exiting...")
         sys.exit(1)
