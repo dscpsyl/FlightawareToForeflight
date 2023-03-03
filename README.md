@@ -65,7 +65,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://github.com/dscpsyl/FlightawareToForeflight/screenshot.png)
+[![Product Name Screen Shot][product-screenshot]](https://github.com/dscpsyl/FlightawareToForeflight/blob/main/screenshot.png)
 
 A CLI app to Ccnvert FlightAware KML tracklogs to G1000 CSV for importing to ForeFlight for those who do not have mobile ADS-B that can connect directly to ForeFlight for bredcrumbs.
 
