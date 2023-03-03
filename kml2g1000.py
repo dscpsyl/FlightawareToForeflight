@@ -1,5 +1,4 @@
 import os
-import glob
 import math
 from datetime import datetime
 from lxml import etree as ET
@@ -70,12 +69,3 @@ def export(kml):
     # Write file to disk.
     with open(fileName, 'w') as f:
         f.writelines('\n'.join(csv))
-
-if __name__ == '__main__':
-    
-    searchDir = input('Show me the directory containing the track files (defaults to Downloads folder): ')
-    if searchDir == '':
-        searchDir = os.path.join(os.path.expanduser('~'), 'Downloads')
-    
-    for kml in glob.glob('*.kml', root_dir=searchDir):
-        export(searchDir + "/" + kml)
