@@ -18,8 +18,9 @@ def local():
     print(f"A total of {len(glob.glob('*.kml', root_dir=searchDir))} files in '{searchDir}' folder were exported to csv.")
     
 def remote():
-    tn = input("Enter the tail number of your aircraft: ")
-    if re.fullmatch("^([A-Z]|[0-9]){6}$", tn.upper()):
+    tn = input("Enter the 6 character tail number of your aircraft : ")
+    tn = tn.upper()
+    if re.fullmatch("^([A-Z]|[0-9]){6}$", tn):
         pdata = fas.findPlaneData(tn)
     else:
         print("ERROR: Invalid tail number. Exiting...")
