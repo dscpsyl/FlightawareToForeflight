@@ -1,4 +1,5 @@
 import os
+import sys
 import glob
 import re
 from kml2g1000 import export
@@ -22,12 +23,14 @@ def local():
     
 def remote():
     tn = input("Enter the 6 character tail number of your aircraft : ")
+    
     print(f"Finding history for aircraft: {tn}...")
     tn = tn.upper()
     if re.fullmatch("^([A-Z]|[0-9]){6}$", tn):
         pdataRAW = fas.findPlaneData(tn)
     else:
         print("ERROR: Invalid tail number. Exiting...")
+        sys.exit(1)
     
     pdataDisplay = copy.deepcopy(pdataRAW)
     _data = ["Date", "Time", "Departure", "Destination"]
@@ -41,7 +44,27 @@ def remote():
     print("#"*100)
     print(historyData)
     
+    flight = input("Enter the flight you would like to download: ")
+    if not re.fullmatch("^([0-9]){1}$|^([1-9]){2}$", flight) or int(flight) >= len(pdataRAW):
+        print("ERROR: Invalid flight number. Exiting...")
+        sys.exit(1)
     
+    print(f"Downloading flight {flight}...")
+    trackRAW = fas.downloadKML(tn, pdataRAW, int(flight))
+    with open("track.kml", "wb") as f:
+        f.write(trackRAW.content)
+    print("Done!")
+    
+    print("Exporting track to csv...")
+    export("track.kml")
+    print("Done!")
+    
+    print("Cleaning up...")
+    os.remove("track.kml")
+    print("Done!")
+    
+    print(f"Exported flight on {pdataDisplay[int(flight)][0]} from {pdataDisplay[int(flight)][2]} to {pdataDisplay[int(flight)][3]} to csv.")
+        
     
 
 if __name__ == '__main__':
@@ -80,4 +103,5 @@ if __name__ == '__main__':
     elif option == '2':
         remote()
     else:
-        print("Invalid option. ")
+        print("Invalid option. Exiting...")
+        sys.exit(1)

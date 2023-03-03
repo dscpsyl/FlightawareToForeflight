@@ -3,6 +3,17 @@ import math
 from datetime import datetime
 from lxml import etree as ET
 
+# Returns the path to the download folder
+def get_download_path():
+    if os.name == 'nt':
+        import winreg
+        sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
+        downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
+            location = winreg.QueryValueEx(key, downloads_guid)[0]
+        return location
+    else:
+        return os.path.join(os.path.expanduser('~'), 'Downloads/')
 
 # Returns an array containing the texts of all the specified child nodes of root.
 def getAll(root, node):
@@ -15,11 +26,14 @@ def calcSpeed(fm, to, start, end):
     return round(dx / dt) if dt else 0
 
 # Converts a kml tracklog exported from flightaware.com to G1000 csv format.
-def export(kml):
-
+def export(kml, folder=None):
+    if not folder:
+        path = get_download_path()
+    else:
+        path = folder
     # Skip if already exported
     base = os.path.splitext(kml)[0]
-    fileName = base + '.csv'
+    fileName = path + base + '.csv'
     if os.path.exists(fileName):
         print("Skipping " + fileName + " (already exists)")
         return
