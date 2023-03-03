@@ -18,7 +18,7 @@ def findPlaneData(tailnum):
             [3] = Destination airport
     """
     
-    page = requests.get(URL + tailnum + + "/history")
+    page = requests.get(URL + tailnum + "/history")
     soup = BeautifulSoup(page.content, "html.parser")
     table = soup.findAll(class_="nowrap")
 
