@@ -5,6 +5,7 @@ A CLI app to Ccnvert FlightAware KML tracklogs to G1000 CSV for importing to For
 * Python 3.10
 * lxml
 * glob
+* requests
 
 ## Usage
 1. Download KML tracklogs from flightaware.com

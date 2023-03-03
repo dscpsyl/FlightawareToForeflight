@@ -1,6 +1,8 @@
 import os
 import glob
+import re
 from kml2g1000 import export
+import fas
 
 
 def local():
@@ -16,7 +18,14 @@ def local():
     print(f"A total of {len(glob.glob('*.kml', root_dir=searchDir))} files in '{searchDir}' folder were exported to csv.")
     
 def remote():
-    print("This feature is not yet implemented. Please try again later.")
+    tn = input("Enter the tail number of your aircraft: ")
+    if re.fullmatch("^([A-Z]|[0-9]){6}$", tn.upper()):
+        pdata = fas.findPlaneData(tn)
+    else:
+        print("ERROR: Invalid tail number. Exiting...")
+    
+    
+    
 
 if __name__ == '__main__':
     print("""##################_____################_____####################_____##################
