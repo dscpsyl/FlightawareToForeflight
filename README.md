@@ -67,7 +67,7 @@
 
 ![KTG Screen Shot](screenshot.png?raw=true)
 
-A CLI app to Ccnvert FlightAware KML tracklogs to G1000 CSV for importing to ForeFlight for those who do not have mobile ADS-B that can connect directly to ForeFlight for bredcrumbs.
+A CLI app to convert FlightAware KML tracklogs to G1000 CSV for importing to ForeFlight for those who do not have mobile ADS-B that can connect directly to ForeFlight for breadcrumbs. This is a forked project that extends the basic functionality and code structure of the existing project. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
