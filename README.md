@@ -110,9 +110,9 @@ You will need the following modules to run this program:
 
 There are currently three different options to use the CLI:
 
-1. **Local**: Convert KML files from a local directory. Supply the full path to the directory.
-2. **Flight** Search: Search for a flight on flightaware.com and download the KML tracklog. Supply the tailnumber and the CLI will guide you.
-3. **Flight Link**: Supply a direct link to a flightaware.com KML tracklog. The link should have the format:  `https://flightaware.com/live/flight/{tailnumber}/history/{date}/{time}/{dpt}/{dst}`
+1. **Local**: Convert KML files from a local directory. Supply the full path to the directory. Otherwise, it defaults to the `Downloads` folder.
+2. **Flight** Search: Search for a flight on flightaware.com and download the KML tracklog. Supply the tailnumber, and the CLI will guide you.
+3. **Flight Link**: Supply a direct link to a flightaware.com KML tracklog. The link should end with `.../tracklog`.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
