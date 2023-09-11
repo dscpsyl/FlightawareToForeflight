@@ -4,6 +4,9 @@ from bs4 import BeautifulSoup
 
 URL = "https://flightaware.com/live/flight/"
 
+class INCORRECTURL(Exception):
+    pass
+
 def findPlaneData(tailnum):
     """Looks through global URL for history of aircraft based on the tailnumber through flightaware.com. There is a limitation of 14 days when
     using this function because of the way flightaware.com stores data.
@@ -65,5 +68,14 @@ def downloadFLink(flightLink):
         _ (requests.models.Response): The KML file is downloaded to the return paramater
     
     """
+
+    parts = flightLink.split("/")
+
+    if parts[-1] != "tracklog":
+        raise INCORRECTURL
+
+    parts[-1] = "google_earth"
+    parts[-4] = parts[-4] + "Z"
+    _url = "/".join(parts)
     
-    return requests.get(flightLink+"/google_earth", allow_redirects=True)
+    return requests.get(_url, allow_redirects=True)
