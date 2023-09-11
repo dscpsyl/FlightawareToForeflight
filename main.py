@@ -22,15 +22,11 @@ def local():
     print(f"A total of {len(glob.glob('*.kml', root_dir=searchDir))} files in '{searchDir}' folder were exported to csv.")
     
 def remote():
-    tn = input("Enter the 6 character tail number of your aircraft : ")
+    tn = input("Enter the tail number of your aircraft : ")
     
     print(f"Finding history for aircraft: {tn}...")
     tn = tn.upper()
-    if re.fullmatch("^([A-Z]|[0-9]){6}$", tn):
-        pdataRAW = fas.findPlaneData(tn)
-    else:
-        print("ERROR: Invalid tail number. Exiting...")
-        sys.exit(1)
+    pdataRAW = fas.findPlaneData(tn)
     
     pdataDisplay = copy.deepcopy(pdataRAW)
     _data = ["Date", "Time", "Departure", "Destination"]
@@ -56,30 +52,41 @@ def remote():
     print("Done!")
     
     print("Exporting track to csv...")
-    export("track.kml")
-    print("Done!")
-    
-    print("Cleaning up...")
-    os.remove("track.kml")
-    print("Done!")
+    try:
+        export("track.kml")
+        print("Done!")
+    except:
+        print("There was an error exporting the .kml to .csv...")
+    finally:
+        print("Cleaning up...")
+        os.remove("track.kml")
+        print("Done!")
     
     print(f"Exported flight on {pdataDisplay[int(flight)][0]} from {pdataDisplay[int(flight)][2]} to {pdataDisplay[int(flight)][3]} to csv.")
         
 def fURL():
-    url = input("Enter the flightaware.com URL of the flight you would like to download: ")
+    url = input("Enter the URL of the flight you would like to download (should end with '.../tracklog'): ")
     print("Downloading flight...")
-    r = fas.downloadFLink(url)
+
+    try:
+        r = fas.downloadFLink(url)
+    except INCORRECTURL:
+        print("That is not the expected URL. Please check the docs for which url to input")
+
     with open ("track.kml", "wb") as f:
         f.write(r.content)
     print("Done!")
     
     print("Exporting track to csv...")
-    export("track.kml")
-    print("Done!")
-    
-    print("Cleaning up...")
-    os.remove("track.kml")
-    print("Done!")
+    try:
+        export("track.kml")
+        print("`track.csv` has been exported to the Downloads folder.")
+    except:
+        print("There was an error converting the track file.")
+    finally:
+        print("Cleaning up track.kml...")
+        os.remove("track.kml")
+        print("Done!")
     
 
 if __name__ == '__main__':
@@ -111,7 +118,7 @@ if __name__ == '__main__':
     print("Please select an option:")
     print("\t\t1. Convert files in a local directory")
     print("\t\t2. Find files directly on flightaware.com")
-    print("\t\t3. Input a flightaware.com URL")
+    print("\t\t3. Input a URL")
     option = input("$: ")
     
     if option == '1':
