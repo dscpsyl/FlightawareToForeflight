@@ -32,13 +32,11 @@ def export(kml, folder=None):
     else:
         path = folder
     # Skip if already exported
-    base = os.path.splitext(kml)[0]
+    base = os.path.splitext(kml)[0].split("/")[-1]
     fileName = path + base + '.csv'
     if os.path.exists(fileName):
         print("Skipping " + fileName + " (already exists)")
         return
-
-    print('Exporting ' + fileName)
     
     # G1000 header, format, and trailing commas for data we do not set.
     hdr = '  Lcl Date, Lcl Time, UTCOfst, AtvWpt,     Latitude,    Longitude,    AltB, BaroA,  AltMSL,   OAT,    IAS, GndSpd,    VSpd,  Pitch,   Roll,  LatAc, NormAc,   HDG,   TRK, volt1,  FQtyL,  FQtyR, E1 FFlow, E1 FPres, E1 OilT, E1 OilP, E1 MAP, E1 RPM, E1 CHT1, E1 CHT2, E1 CHT3, E1 CHT4, E1 EGT1, E1 EGT2, E1 EGT3, E1 EGT4,  AltGPS, TAS, HSIS,    CRS,   NAV1,   NAV2,    COM1,    COM2,   HCDI,   VCDI, WndSpd, WndDr, WptDst, WptBrg, MagVar, AfcsOn, RollM, PitchM, RollC, PichC, VSpdG, GPSfix,  HAL,   VAL, HPLwas, HPLfd, VPLwas'
