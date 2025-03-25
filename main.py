@@ -2,7 +2,9 @@ import os
 import sys
 import glob
 import re
+
 from kml2g1000 import export
+from fas import INCORRECTURL
 import fas
 import pandas as pd
 import copy
@@ -70,6 +72,7 @@ def fURL():
 
     try:
         r = fas.downloadFLink(url)
+        print(r.content)
     except INCORRECTURL:
         print("That is not the expected URL. Please check the docs for which url to input")
 
