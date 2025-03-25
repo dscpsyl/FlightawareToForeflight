@@ -6,7 +6,8 @@ from urllib.parse import urlparse
 URL = "https://flightaware.com/live/flight/"
 
 class INCORRECTURL(Exception):
-    pass
+    def __init__(self, *args: object) -> None:
+        super().__init__(*args)
 
 def findPlaneData(tailnum):
     """Looks through global URL for history of aircraft based on the tailnumber through flightaware.com. There is a limitation of 14 days when
