@@ -1,6 +1,7 @@
 import sys
 import requests
-from bs4 import BeautifulSoup 
+from bs4 import BeautifulSoup
+from urllib.parse import urlparse
 
 URL = "https://flightaware.com/live/flight/"
 
@@ -68,14 +69,28 @@ def downloadFLink(flightLink):
         _ (requests.models.Response): The KML file is downloaded to the return paramater
     
     """
-
-    parts = flightLink.split("/")
-
-    if parts[-1] != "tracklog":
-        raise INCORRECTURL
-
-    parts[-1] = "google_earth"
-    parts[-4] = parts[-4] + "Z"
-    _url = "/".join(parts)
     
-    return requests.get(_url, allow_redirects=True)
+    _url = urlparse(flightLink)
+
+    # Parts of the URL
+    # 0: empty string
+    # 1: "live"
+    # 2: "flight"
+    # 3: tail number
+    # 4: "history"
+    # 5: date in YYYYMMDD format
+    # 6: time in HHMMZ UTC format
+    # 7: departing airport
+    # 8: destination airport
+    # 9: "tracklog"
+    pathParts = _url.path.split("/")
+    
+    if str(pathParts[-1]) != "tracklog":
+        raise INCORRECTURL
+    
+    pathParts[6] = str(pathParts[6]) + "Z"
+    pathParts[-1] = "google_earth"
+    
+    _url = _url._replace(path="/".join(pathParts))
+    
+    return requests.get(_url.geturl(), allow_redirects=True)
